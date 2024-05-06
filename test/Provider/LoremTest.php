@@ -69,7 +69,7 @@ final class LoremTest extends TestCase
         self::assertGreaterThanOrEqual(1, count(explode(' ', $paragraph)));
     }
 
-    public function testWordssAsText(): void
+    public function testWordsAsText(): void
     {
         $words = TestableLorem::words(2, true);
 
@@ -89,6 +89,29 @@ final class LoremTest extends TestCase
 
         $expected = "This is a test paragraph. It has three sentences. Exactly three.\n\nThis is a test paragraph. It has three sentences. Exactly three.";
         self::assertEquals($expected, $paragraphs);
+    }
+
+    public function testQuestionUsesExpectedGrammar(): void
+    {
+        self::assertEquals('?', substr(Lorem::question(), -1));
+    }
+
+    public function testQuestionWithZeroNbWordsReturnsEmptyString(): void
+    {
+        self::assertEquals('', Lorem::question(0));
+    }
+
+    public function testQuestionWithNegativeNbWordsReturnsEmptyString(): void
+    {
+        self::assertEquals('', Lorem::question(-1));
+    }
+
+    public function testQuestionWithPositiveNbWordsReturnsAtLeastOneWord(): void
+    {
+        $question = Lorem::question(1);
+
+        self::assertGreaterThan(1, strlen($question));
+        self::assertGreaterThanOrEqual(1, count(explode(' ', $question)));
     }
 }
 
@@ -110,5 +133,10 @@ final class TestableLorem extends Lorem
     public static function paragraph($nbSentences = 3, $variableNbSentences = true)
     {
         return 'This is a test paragraph. It has three sentences. Exactly three.';
+    }
+
+    public static function question($nbWords = 5, $variableNbWords = true)
+    {
+        return 'Is this a test question?';
     }
 }

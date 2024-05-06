@@ -221,6 +221,25 @@ class Lorem extends Base
         return implode('', $text);
     }
 
+    /**
+     * Generate a random question
+     *
+     * @example 'Lorem ipsum dolor sit amet?'
+     *
+     * @param $nbWords
+     * @param $variableNbWords
+     *
+     * @return array|string|string[]
+     */
+    public static function question($nbWords = 6, $variableNbWords = true)
+    {
+        if ($nbWords <= 0) {
+            return '';
+        }
+
+        return substr_replace(static::sentence($nbWords, $variableNbWords), '?', -1);
+    }
+
     protected static function randomizeNbElements($nbElements)
     {
         return (int) ($nbElements * self::numberBetween(60, 140) / 100) + 1;
